@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Unsubscribe</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.box {
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+}
+button {
+  width: 100%;
+  padding: 12px;
+  background: #d9534f;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.success {
+  color: green;
+  display: none;
+}
+</style>
+</head>
+
+<body>
+<div class="box">
+  <h2>Unsubscribe</h2>
+  <p>You will stop receiving our emails.</p>
+
+  <form id="unsubscribeForm">
+    <input type="email" id="email" name="email" required>
+    <button type="submit">Unsubscribe</button>
+  </form>
+
+  <p class="success" id="successMsg">
+    ✅ You have been unsubscribed successfully.
+  </p>
+</div>
+
+<script>
+// Auto-fill email from URL
+const params = new URLSearchParams(window.location.search);
+document.getElementById("email").value = params.get("email") || "";
+
+document.getElementById("unsubscribeForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  fetch("https://script.google.com/macros/s/AKfycbyOmLh8snilVWmPaGtgsQcSy8zSLkMoN1rth_v15kQdaoT1I3dbkwWsGys4ASYB_xqV/exec", {
+    method: "POST",
+    body: JSON.stringify({
+      email: document.getElementById("email").value
+    })
+  }).then(() => {
+    document.getElementById("unsubscribeForm").style.display = "none";
+    document.getElementById("successMsg").style.display = "block";
+  });
+});
+</script>
+</body>
+</html>
